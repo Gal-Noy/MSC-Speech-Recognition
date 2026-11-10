@@ -33,7 +33,7 @@ The DFT is computed by multiplying the signal by the explicitly constructed matr
 \[
  W_{k,n}=e^{-j2\pi kn/N},\qquad \mathbf{X}_1=W\mathbf{s}_1.
 \]
-Only bins $k=0,\ldots,199$ are displayed: for a real signal, $X[N-k]=\overline{X[k]}$, so the negative-frequency half is redundant (the Nyquist bin $k=200$ is a separate boundary bin).
+Only bins $k=0,\ldots,199$ are displayed: for a real signal, $X[N-k]=\overline{X[k]}$, so the negative-frequency half is redundant (the Nyquist bin $k=200$ is a separate boundary bin). All spectra use $20\log_{10}(|X[k]|/P)$, where $P$ is the maximum coefficient magnitude of the original signal. Values below $-80$ dB are clipped for display; each window comparison uses the same $P$ for both curves.
 
 \begin{figure}[H]
 \centering
@@ -82,7 +82,7 @@ Tone (Hz) & Bin $k$ & Amplitude & Phase (rad) \\
 \end{tabular}
 \end{center}
 
-These values are estimates from individual DFT coefficients, not the original tone parameters: leakage affects both their magnitudes and phases.
+The selected bins correspond to $440$, $1080$, $1120$, and $2560$ Hz, respectively. These are amplitudes and phases of the DFT coefficients at those bin frequencies, not exact recovery of the original tone parameters.
 
 \subsection*{(f) Hamming Window}
 
@@ -91,7 +91,7 @@ Both signals are multiplied by the $N$-sample Hamming window
  w[n]=\frac{25}{54}-\frac{21}{54}\cos\!\left(\frac{2\pi n}{N}\right),
  \qquad 0\le n<N.
 \]
-The window reduces discontinuities at the frame boundaries and suppresses distant sidelobes, especially for the non-bin-aligned second signal. The trade-off is a wider main lobe and lower peak magnitude because the window attenuates the samples.
+For the first signal, all tones are bin-aligned, so the original DFT has no spectral leakage. Windowing lowers the peaks and spreads energy into adjacent bins. For the second signal, which already has leakage, the window reduces the distant sidelobes but widens and lowers the main peaks.
 
 \begin{figure}[H]
 \centering
@@ -121,8 +121,9 @@ $ s_2 w$ & 450  & 11 & 0.17601 &  1.56887 \\
 \end{tabular}
 \end{center}
 
-For the bin-aligned first signal, the phases remain unchanged and the amplitudes are reduced by the window's coherent gain, $\frac{1}{N}\sum_n w[n]=25/54\approx0.463$. For the second signal, leakage and the window's redistribution of spectral energy also change the estimated phases; the amplitudes are again smaller than in part (e).
+For the first signal, the phases remain unchanged and the peak amplitudes are reduced by the average window weight, $\frac{1}{N}\sum_n w[n]=25/54\approx0.463$. For the second signal, the window changes the distribution of energy between bins, affecting both the coefficient-based amplitudes and phases. The reported values refer to the same selected bin frequencies as in part (e).
 
+\clearpage
 \section{Question 2 -- Multivariate Gaussian Models}
 
 For $M$ equally weighted vectors $\mathbf{x}_i\in\mathbb{R}^d$, we estimate
@@ -216,8 +217,8 @@ Query & Diagonal & Full \\
 
 \subsection*{(e) Explanation of the Differences}
 
-The second dataset and its query vectors are approximately a \textbf{rotation and translation} of the first. Translation changes the mean; rotation changes the coordinate-wise variances and introduces substantial cross-dimensional covariances (compare the off-diagonal entries of $\Sigma_1$ and $\Sigma_2$).
+In the first dataset, the off-diagonal entries of $\Sigma_1$ are small relative to the variances, so the diagonal and full models give similar log-likelihoods. In the second dataset, the off-diagonal entries of $\Sigma_2$ are substantial. Ignoring these dependencies changes the diagonal-model scores considerably.
 
-A full-covariance Gaussian accounts for these correlations. Under an orthogonal rotation and translation, its determinant and Mahalanobis distances are preserved, so the paired log-likelihoods should be equal. Indeed, the full-model values in (b) and (d) differ by only about $0.0003$, consistent with small differences in the supplied data. The diagonal model discards correlations and is not rotation-invariant; its normalization constant and query log-likelihoods therefore change appreciably.
+The two full models have nearly equal normalization constants, and the quadratic terms in the log-likelihood formula are also nearly equal for corresponding queries. Consequently, their log-likelihoods in (b) and (d) differ by at most $0.000324$.
 
 \end{document}
