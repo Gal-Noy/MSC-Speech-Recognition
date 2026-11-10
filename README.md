@@ -18,4 +18,6 @@ uv run --project .. jupyter lab
 
 Open `solution.ipynb`, select the project environment's Python kernel, then **Run All Cells**.
 
-The notebook includes implementations, plots, results, explanations, and checks for both questions. The separate PDF report will follow after review.
+The notebook contains the executable solutions and plots. The report source is [`ex_1/report.tex`](ex_1/report.tex), with its images in `ex_1/figures/`.
+
+To compile the PDF, run `pdflatex report.tex` from the `ex_1` directory.
