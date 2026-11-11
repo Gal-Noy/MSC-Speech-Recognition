@@ -43,7 +43,7 @@ Only bins $k=0,\ldots,199$ are displayed: for a real signal, $X[N-k]=\overline{X
 
 \subsection*{(c) Amplitudes and Phases of the First Signal}
 
-For a tone aligned with bin $k=f/\Delta f$, its amplitude and phase are $A=2|X[k]|/N$ and $\phi=\arg X[k]$. All three frequencies are bin-aligned, yielding:
+A cosine splits its amplitude equally between the positive- and negative-frequency bins. Thus, for a bin-aligned tone, $|X[k]|=NA/2$, giving $A=2|X[k]|/N$; its phase is $\phi=\arg X[k]$. All three frequencies are bin-aligned, yielding:
 
 \begin{center}
 \begin{tabular}{rrrr}
@@ -91,7 +91,7 @@ Both signals are multiplied by the $N$-sample Hamming window
  w[n]=\frac{25}{54}-\frac{21}{54}\cos\!\left(\frac{2\pi n}{N}\right),
  \qquad 0\le n<N.
 \]
-For the first signal, all tones are bin-aligned, so the original DFT has no spectral leakage. Windowing lowers the peaks and spreads energy into adjacent bins. For the second signal, which already has leakage, the window reduces the distant sidelobes but widens and lowers the main peaks.
+For the first signal, all tones are bin-aligned, so the original DFT has no spectral leakage. Windowing lowers the peaks and spreads energy into adjacent bins. For the second signal, which already has leakage, the window reduces the distant sidelobes but widens and lowers the main peaks. The Hamming window smoothly reduces the weight of samples near the frame edges, decreasing the discontinuity when the frame repeats and suppressing distant sidelobes for off-bin tones.
 
 \begin{figure}[H]
 \centering
